@@ -1,0 +1,180 @@
+---
+title: 111 Cursor 最强竞争对手 Windsurf 免费送两个月 VIP，他真的，我哭死！
+description: Test1
+keywords:
+    - test1
+    - blog1
+date: 2024-11-21
+image: /images/efficient-1.svg
+authors:
+    - yangchuansheng
+tags: ['Next.js', 'React', 'Web Development']
+---
+
+号外号外，Cursor 最强劲的竞争对手 Windsurf 官方直接发福利了，免费送两个月 VIP！
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-12-02-jS6Wyy.png)
+
+> 福利直达链接：**https://codeium.com/offers?offer_code=codeium-thanks-you**
+
+通过这个链接注册 Codeium 即可免费获得两个月 VIP。
+
+如果你还不知道 Windsurf 是什么，且听我慢慢道来。
+
+Windsurf 和 Cursor、Zed AI 一样，都是一款 AI IDE，这些 AI IDE 一直在卷，每一家都时不时放个绝招出来，最后鹿死谁手也未可知。
+
+**但是不管他们怎么卷，对于我们用户来说，都是好事，因为只有卷才能让我们享受到越来越好的产品和服务。**
+
+Windsurf 是 Codeium 最近新放的一个大招，它是一款”既智能又懂事“ 的 IDE，采用了与 Cursor 相同的方式，直接 fork 了 VSCode，以便将 AI 能力深度集成到 IDE 中。
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-12-17-7OhRI3.png)
+
+Codeium 之前也做了 VS Code 插件，补全能力也不错，不过比 Cursor 差了很多，它只能一行一行进行补全，而 Cusor 可以直接给你补一个函数或者文件。
+
+所以 Codeium 觉得插件并不能满足需求，就直接 fork 了 VSCode，然后做了很多优化，体验更好，**直接对标 Cursor**。
+
+下面我们来试试如何结合 Sealos Devbox 和 Windsurf 来快速开发和部署一个网站。
+
+## 创建开发环境
+
+首先进入 Sealos 桌面：**https://hzh.sealos.run**
+
+然后打开 Debox 应用，创建一个新项目，这里我们选择使用 Next.js 作为运行环境，因为 Next.js 是现在最流行的前端框架之一嘛，我们就用它来开发一个网站。
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-13-52-COZ4XF.png)
+
+由于 Sealos Devbox 目前还没有完全适配 Windsurf（我们正在快马加鞭支持中），所以这里我们可以先曲线救国，使用 VS Code 或者 Cursor 来连接开发环境，连接成功后，再关闭 VS Code，然后打开 Windsurf 就可以连接到开发环境了。
+
+具体步骤如下：
+
+先在操作选项中点击 VS Code，将会自动打开本地的 VS Code。
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-13-56-Ui9brQ.png)
+
+接着会提示安装 Devbox 插件，安装后即可自动连接开发环境。
+
+![](https://images.tryfastgpt.ai/forum/2024-10-21-12-30-zwgOVm.png)
+
+连接成功后，关闭 VS Code，然后打开 Windsurf，选择连接到远程 SSH 环境。
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-13-57-gCUNhZ.png)
+
+然后选择之前 VS Code 连接过的环境：
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-13-58-a38OcQ.png)
+
+接下来就会成功连接到开发环境。连接成功后，我们来修改一下项目的根目录，点击左边的 “Open Folder”按钮：
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-13-59-o9FSAb.png)
+
+然后选择 `/home/devbox/project` 目录作为根目录。
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-00-5BLYaT.png)
+
+最终就是这个样子啦~
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-01-RjP5IU.png)
+
+## 开发网站
+
+我们先来看一下右边的这个 Cascade 面板：
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-04-tf3xk0.png)
+
+这个面板是 Windsurf 的特色功能，和 Cursor 的 Composer 类似，但 Cascade 的操作更灵活一点。
+
+Cursor 需要在 Chat 面板和 Composer 面板之间来回切换，而 Windsurf 则只需要在 Cascade 面板中切换模式即可。Cascade 提供了**聊天**和**编辑**两种模式，聊天模式和 Cursor 的 Chat 面板类似，而编辑模式则和 Cursor 的 Composer 面板类似，可以生成和修改代码。
+
+Cascade 这里的设计有点误导，我一开始以为把切换按钮打开就是编辑模式，实际上不是这个意思，切到左边是 “Write”（也就是编辑模式），切到右边是 Chat（也就是聊天模式）。
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-09-lyAgsN.png)
+
+至于模型嘛，大家都一样，默认当然是最强的 Claude 3.5。
+
+当然你也可以切换模型，除了 Claude 3.5 之外，还有 GPT-4o 模型可选，不过我相信你不会切换模型的。
+
+**是时候展现真正的技术了，下面开始念咒施法，来，给我写一个 AI 虚拟女友**：
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-14-JucvPu.png)
+
+然后它就开始吭哧吭哧给我写代码了，写之前它还给我分析一个现有的项目结构，然后基于我已有的 next.js 项目结构开始往下写。他真的，我哭死。
+
+创建完各种文件之后，还贴心地问我要不要安装依赖，命令都给我写好了，就等着我同意了。**他真的，我又哭死了，这比 Cursor 不知道高到哪里去了。**
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-16-h2srOA.png)
+
+我还能怎么办，当然点击 "Accept" 啦。
+
+不一会儿，它就全部写完了，我只需要点击右下角的 “Accept all” 接受所有修改就行了。
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-19-9Ivx0m.png)
+
+我们来启动项目看看效果：
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-21-KrdauL.png)
+
+现在回到 Sealos Devbox 界面，进入开发环境的详情页面：
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-24-qxEPVm.png)
+
+然后点击外网地址即可打开应用。
+
+> 这是个公网地址哦，团队成员可以直接通过这个链接访问和预览应用，非常有利于团队协作和开发调试。
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-25-J7PwhJ.png)
+
+这里 AI 帮我们把虚拟女友放到 /chat 路由下了，那我们就在域名后面再加上 /chat 路由访问试试看吧。
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-26-aaIHNs.png)
+
+咦，怎么回事，看来是缺少样式，**回去接着骂 AI**：
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-29-BAzUt1.png)
+
+骂完之后，AI 又是一顿操作猛如虎，再来看看效果：
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-14-31-ITJTRm.png)
+
+不错，现在终于能看了。
+
+继续让他优化：
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-15-12-N6o5GF.png)
+
+不错，现在好看多了：
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-15-13-zghn7w.png)
+
+继续优化 TDK：
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-15-32-Qn3vCe.png)
+
+非常完美！
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-15-33-dWVD0b.jpg)
+
+继续让他通过环境变量来自定义大模型的 URL、Key 和模型名字。
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-15-53-kyiglQ.png)
+
+我们可以使用 Sealos AI Proxy 中的模型，这是一个一站式 AI 模型调用解决方案，让你可以在同一个平台中轻松调用各类 AI 模型。
+
+在 Sealos 桌面打开【AI Proxy】，点击【新建】按钮开始新建 Key。
+
+创建完成后会看到 API Endpoint 和需要调用的 API Key，直接点击复制进行使用。
+
+![](https://images.tryfastgpt.ai/forum/2024-11-18-00-10-Mji6aD.png)
+
+将 API Endpoint 和 API Key 填入 `.env.local` 中，模型任选一个即可，这里我选择 `deepseek-chat`。
+
+我们再来设置一下提示词，提示词比较长，记住用反引号包裹起来。
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-16-05-cILpif.png)
+
+接下来就是见证奇迹的时刻，**约女神去吃饭吧！**
+
+> 我把链接放在这儿了，感兴趣的可以自己去约女神：**https://nppkglpfjynz.sealoshzh.site/chat**
+
+![](https://images.tryfastgpt.ai/forum/2024-11-20-16-09-zB6GaI.jpeg)
+
+不好意思，女神好像出了点小问题，我回去再试试，今天的文章就到这里吧，我先溜了~
