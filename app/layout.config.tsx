@@ -36,7 +36,7 @@ export const HeaderLinks = [
   },
   {
     text: '文档',
-    url: '/docs',
+    url: '/docs/5.0.0/Intro',
   },
   // {
   //   text: 'Pricing',
