@@ -58,6 +58,19 @@ export async function generateMetadata(props: {
     title: page.data.title,
     description: page.data.description,
     keywords: page.data.keywords,
+    authors: page.data.authors.map((author) => ({
+      name: blogAuthors[author].name,
+      url: blogAuthors[author].url,
+    })),
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+      },
+    },
     alternates: {
       canonical: `${domain}/blog/${params.slug}`,
     },
@@ -67,7 +80,19 @@ export async function generateMetadata(props: {
       authors: page.data.authors.map((author) => blogAuthors[author].name),
       title: page.data.title,
       description: page.data.description,
-      images: page.data.image ?? '/opengraph-image.png',
+      images: [
+        `${domain}${page.data.image ?? `${domain}/opengraph-image.png`}`,
+      ],
+      publishedTime: page.data.date.toString(),
+      modifiedTime: page.data.lastModified?.toString(),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: page.data.title,
+      description: page.data.description,
+      images: [
+        `${domain}${page.data.image ?? `${domain}/opengraph-image.png`}`,
+      ],
     },
   } satisfies Metadata;
 }

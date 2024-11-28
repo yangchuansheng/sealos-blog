@@ -73,7 +73,7 @@ const Footer = async () => {
             <FooterLink href="https://affim.baidu.com/unique_57159132/chat?siteId=21229559&userId=57159132&siteToken=6763f865f8d80f27bf8adf840a3041b6&cp=%E9%A6%96%E9%A1%B5-%E5%BA%95%E9%83%A8-%E5%94%AE%E5%90%8E%E5%92%A8%E8%AF%A2%E6%8C%89%E9%92%AE&cr=&cw=">
               售后咨询
             </FooterLink>
-            <FooterLink href="/docs">
+            <FooterLink href="https://sealos.run/docs/5.0.0/Intro">
               文档
             </FooterLink>
             <FooterLink href="/blog">

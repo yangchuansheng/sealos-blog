@@ -33,28 +33,26 @@ export default async function BlogLayout({
           style: 'clerk',
           single: false,
           footer: (
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm bg-gradient-to-br from-[#5FEE83] from-27% to-[#BEE0DB] to-103% hidden lg:block">
+            <div className="relative hidden rounded-lg border bg-custom-bg  text-card-foreground text-custom-primary-text shadow hover:bg-[#97D9FF] lg:block">
               <div className="flex flex-col space-y-1.5 p-6">
                 <Image
                   alt="sidecard"
-                  src="https://www.expostarter.com/_next/image?url=%2Fimages%2Fdocs%2Fsidecard.png&w=640&q=75"
+                  src="https://images.tryfastgpt.ai/forum/2024-11-25-16-43-ya5hQU.png"
                   width={200}
                   height={160}
                   className="w-full"
                 />
               </div>
               <div className="p-6 pt-0">
-                <p className="text-md text-gray-800 font-bold">
-                  No native development experience? No problem.
-                </p>
-                <p className="text-sm text-gray-800">
-                  Use your existing web dev skills to get your app on the store!
+                <p className="text-md font-bold">一键启动 开发未来</p>
+                <p className="text-sm">
+                  让环境配置、应用开发、部署发布一气呵成
                 </p>
               </div>
-              <div className="flex items-center p-6 pt-0 w-full">
-                <Link href="/#pricing" className="w-full">
-                  <button className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow h-8 rounded-md px-3 text-xs gap-1.5 bg-black text-white hover:bg-gray-800 w-full">
-                    Get Expo Starter
+              <div className="flex w-full items-center p-6 pt-0">
+                <Link href="https://hzh.sealos.run" target="_blank" className="w-full">
+                  <button className="inline-flex h-8 w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-black px-3 text-xs font-medium text-white shadow transition-colors hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+                    我要试试
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="1em"
@@ -141,7 +139,7 @@ function Footer({ page }: { page: InferPageType<typeof blog> }) {
             <Link
               key={tag}
               href={getTagHref(tag)}
-              className="rounded-md bg-primary/10 px-1 py-0.5 text-primary text-sm"
+              className="rounded-md bg-primary/10 px-1 py-0.5 text-sm text-primary"
             >
               # {tag}
             </Link>

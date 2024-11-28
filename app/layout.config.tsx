@@ -36,7 +36,7 @@ export const HeaderLinks = [
   },
   {
     text: '文档',
-    url: '/docs',
+    url: 'https://sealos.run/docs/5.0.0/Intro',
   },
   // {
   //   text: 'Pricing',
@@ -48,6 +48,6 @@ export const HeaderLinks = [
   },
   {
     text: '联系我们',
-    url: '/contact',
+    url: 'https://fael3z0zfze.feishu.cn/share/base/form/shrcnesSfEK65JZaAf2W6Fwz6Ad',
   },
 ];

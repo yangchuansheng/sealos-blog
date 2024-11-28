@@ -30,7 +30,7 @@ export default function Header({ lang }: { lang: string }) {
         <div className={cn('flex w-full justify-between py-[10px]')}>
           <div className="flex items-center md:gap-x-9">
             <Link
-              href={'/'}
+              href={'https://sealos.run'}
               aria-label={siteConfig.name}
               title={siteConfig.name}
               className="flex items-center gap-1 font-bold"

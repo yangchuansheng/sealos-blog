@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
+import { LANGUAGES } from '@/lib/i18n';
 
 export function BlogItem({ page }: { page: InferPageType<typeof blog> }) {
   return (
@@ -45,6 +46,19 @@ export function BlogItem({ page }: { page: InferPageType<typeof blog> }) {
           {page.data.description}
         </p>
 
+        {page.data.tags && page.data.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 hover:bg-muted ">
+            {page.data.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
         <div className="mt-auto flex flex-row items-center pt-3">
           <div className="flex -space-x-2">
             {page.data.authors.flatMap((author, i) => {
@@ -74,9 +88,11 @@ export function BlogItem({ page }: { page: InferPageType<typeof blog> }) {
 
 export function generateMetadata() {
   return {
-    title: "博客 | Sealos - 专为云原生开发打造的以 K8s 为内核的云操作系统",
-    description: "Sealos云操作系统,Kubernetes 云内核,多 Region 统一管理,以应用为中心的企业级容器云,秒级创建高可用数据库,自动伸缩杜绝资源浪费,一键创建容器集群,端到端的应用安全保障，支持多种复杂应用场景快速上云,超10w+企业,近百万开发者在线使用。",
-    keywords: "Sealos,Docker,Kubernetes,云操作系统,云管理平台,云管理,容器云,企业级容器云,容器云部署,容器云厂商,云原生",
+    title: '博客 | Sealos - 专为云原生开发打造的以 K8s 为内核的云操作系统',
+    description:
+      'Sealos云操作系统,Kubernetes 云内核,多 Region 统一管理,以应用为中心的企业级容器云,秒级创建高可用数据库,自动伸缩杜绝资源浪费,一键创建容器集群,端到端的应用安全保障，支持多种复杂应用场景快速上云,超10w+企业,近百万开发者在线使用。',
+    keywords:
+      'Sealos,Docker,Kubernetes,云操作系统,云管理平台,云管理,容器云,企业级容器云,容器云部署,容器云厂商,云原生',
   } satisfies Metadata;
 }
 
@@ -98,11 +114,9 @@ export default function BlogIndex() {
             分享与 Sealos 相关的技术见解、产品动态与行业洞察
           </p>
         </div>
-        <div className="flex flex-row justify-center gap-2.5 mt-4">
+        <div className="mt-4 flex flex-row justify-center gap-2.5">
           <Button asChild>
-            <Link href="/blog/tags">
-              查看所有标签
-            </Link>
+            <Link href="/blog/tags">查看所有标签</Link>
           </Button>
         </div>
       </div>
