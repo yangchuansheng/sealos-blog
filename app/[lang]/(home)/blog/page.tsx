@@ -1,110 +1,46 @@
-import { blogAuthors } from '@/config/site';
-import { blog } from '@/lib/source';
-import type { InferPageType } from 'fumadocs-core/source';
-import Image from 'next/image';
-import Link from 'next/link';
 import type { Metadata } from 'next';
+import { BlogList } from './components/blog-list';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { LANGUAGES } from '@/lib/i18n';
+import { blog } from '@/lib/source';
+import { cache } from 'react';
 
-export function BlogItem({ page }: { page: InferPageType<typeof blog> }) {
-  return (
-    <Link
-      href={page.url}
-      className="group flex flex-col overflow-hidden rounded-xl bg-card text-card-foreground shadow-md transition-all hover:-translate-y-1 hover:bg-accent hover:text-accent-foreground hover:shadow-xl"
-    >
-      <div className="relative aspect-video h-auto w-full overflow-hidden">
-        {page.data.image != null ? (
-          <Image
-            alt="image"
-            src={page.data.image}
-            className="h-full object-cover transition-transform group-hover:scale-105"
-            fill
-            sizes="(max-width: 760px) 90vw, 400px"
-          />
-        ) : (
-          <div
-            className="flex h-full flex-1 flex-col"
-            style={{
-              backgroundImage: `url('/images/blog.webp')`,
-            }}
-          >
-            <Image
-              alt="logo"
-              src="/logo.svg"
-              className="m-auto h-20 w-20 rounded-full transition-transform group-hover:scale-110"
-              width={128}
-              height={128}
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-1 flex-col gap-2.5 p-5">
-        <p className="line-clamp-2 font-semibold">{page.data.title}</p>
-        <p className="line-clamp-2 text-sm text-muted-foreground">
-          {page.data.description}
-        </p>
-
-        {page.data.tags && page.data.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 hover:bg-muted ">
-            {page.data.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <div className="mt-auto flex flex-row items-center pt-3">
-          <div className="flex -space-x-2">
-            {page.data.authors.flatMap((author, i) => {
-              const info = blogAuthors[author];
-              if (!info?.image_url) return [];
-
-              return (
-                <Image
-                  key={info.name}
-                  src={info.image_url}
-                  alt={info.name}
-                  width={28}
-                  height={28}
-                  className="rounded-full border-2 border-background"
-                />
-              );
-            })}
-          </div>
-          <time className="ml-auto text-xs text-muted-foreground">
-            {new Date(page.data.date).toLocaleDateString()}
-          </time>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-export function generateMetadata() {
+export function generateMetadata(): Metadata {
   return {
     title: '博客 | Sealos - 专为云原生开发打造的以 K8s 为内核的云操作系统',
     description:
       'Sealos云操作系统,Kubernetes 云内核,多 Region 统一管理,以应用为中心的企业级容器云,秒级创建高可用数据库,自动伸缩杜绝资源浪费,一键创建容器集群,端到端的应用安全保障，支持多种复杂应用场景快速上云,超10w+企业,近百万开发者在线使用。',
     keywords:
       'Sealos,Docker,Kubernetes,云操作系统,云管理平台,云管理,容器云,企业级容器云,容器云部署,容器云厂商,云原生',
-  } satisfies Metadata;
+  };
 }
 
+// 使用 React cache 缓存博客数据
+const getBlogPosts = cache(() => {
+  return [...blog.getPages()]
+    .sort((a, b) => {
+      const dateA = new Date(a.data.date).getTime();
+      const dateB = new Date(b.data.date).getTime();
+      return dateB - dateA;
+    })
+    .map(post => ({
+      url: post.url,
+      data: {
+        title: post.data.title,
+        description: post.data.description,
+        date: typeof post.data.date === 'string' ? post.data.date : post.data.date.toISOString(),
+        image: post.data.image,
+        authors: post.data.authors,
+        tags: post.data.tags || [],
+      }
+    }));
+});
+
 export default function BlogIndex() {
-  const posts = [...blog.getPages()].sort(
-    (a, b) =>
-      new Date(b.data.date ?? b.file.name).getTime() -
-      new Date(a.data.date ?? a.file.name).getTime(),
-  );
+  const posts = getBlogPosts();
 
   return (
-    <main className="flex flex-1 flex-col pb-20">
+    <div className="container mx-auto px-4">
       <div className="py-16">
         <h1 className="mb-8 text-center text-4xl font-bold md:text-5xl">
           博客
@@ -116,15 +52,15 @@ export default function BlogIndex() {
         </div>
         <div className="mt-4 flex flex-row justify-center gap-2.5">
           <Button asChild>
-            <Link href="/blog/tags">查看所有标签</Link>
+            <Link href="/blog/tags" prefetch={true}>查看所有标签</Link>
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.map((page) => (
-          <BlogItem key={page.url} page={page} />
-        ))}
-      </div>
-    </main>
+      <BlogList posts={posts} />
+    </div>
   );
 }
+
+// 生成静态页面参数
+export const dynamic = 'force-static';
+export const revalidate = 3600; // 1小时重新验证一次

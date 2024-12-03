@@ -16,26 +16,29 @@ export default function AllTags() {
   );
 
   return (
-    <main className="my-16 flex w-full flex-col gap-3">
-      <div className="mb-3 flex flex-col items-center gap-3 text-center">
-        <h1 className="mb-4 text-5xl font-bold">所有标签</h1>
-        <Button asChild>
-          <Link href="/blog">查看文章</Link>
-        </Button>
+    <div className="container mx-auto px-4">
+      <div className="py-16">
+        <h1 className="mb-8 text-center text-4xl font-bold md:text-5xl">
+          所有标签
+        </h1>
+        <p className="text-center text-lg text-muted-foreground">
+          共有 {tags.length} 个标签
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {tags.map(([tag, info]) => (
-          <Link
-            key={tag}
-            href={getTagHref(tag)}
-            className="flex flex-row justify-between gap-3 rounded-md border bg-card p-2 text-card-foreground"
-          >
-            <span className="font-medium">{tag}</span>
-            <span className="text-sm text-muted-foreground">{info.count}</span>
-          </Link>
-        ))}
+      <div className="mx-auto max-w-2xl">
+        <div className="flex flex-wrap justify-center gap-3">
+          {tags.map(([tag, info]) => (
+            <Link
+              key={tag}
+              href={getTagHref(tag)}
+              className="rounded-full bg-muted px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              {tag} ({info.count})
+            </Link>
+          ))}
+        </div>
       </div>
-    </main>
+    </div>
   );
 }

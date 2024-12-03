@@ -1,64 +1,73 @@
 import { blog } from '@/lib/source';
-import { Button } from '@/components/ui/button';
-import { getTags } from '@/lib/tags';
+import { BlogList } from '../../components/blog-list';
 import { domain } from '@/config/site';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { BlogItem } from '@/app/[lang]/(home)/blog/page';
+import { Button } from '@/components/ui/button';
+import { cache } from 'react';
 
-export default async function TagPage({
-  params,
-}: {
-  params: Promise<{ tag: string }>;
-}) {
-  const decodedTag = decodeURIComponent((await params).tag);
-  const pages = blog
-    .getPages()
-    .filter((blog) =>
-      blog.data.tags?.some((tag) => tag.toLowerCase() === decodedTag),
-    );
+const getTagPosts = cache((tag: string) => {
+  return [...blog.getPages()]
+    .filter((page) => page.data.tags?.some((t) => t.toLowerCase() === tag.toLowerCase()))
+    .sort((a, b) => {
+      const dateA = new Date(a.data.date).getTime();
+      const dateB = new Date(b.data.date).getTime();
+      return dateB - dateA;
+    })
+    .map((post) => ({
+      url: post.url,
+      data: {
+        title: post.data.title,
+        description: post.data.description,
+        date: typeof post.data.date === 'string' ? post.data.date : post.data.date.toISOString(),
+        image: post.data.image,
+        authors: post.data.authors,
+        tags: post.data.tags || [],
+      },
+    }));
+});
+
+export default function TagPage({ params }: { params: { tag: string } }) {
+  const decodedTag = decodeURIComponent(params.tag);
+  const posts = getTagPosts(decodedTag);
 
   return (
-    <main className="my-16 flex w-full flex-1 flex-col gap-5">
-      <div className="mb-5 flex flex-col items-center gap-5 text-center">
-        <h1 className="mb-4 text-3xl font-bold">{`标签「${decodedTag}」下的文章`}</h1>
-        <Button asChild>
-          <Link href="/blog/tags">所有标签</Link>
-        </Button>
+    <div className="container mx-auto px-4">
+      <div className="py-16">
+        <h1 className="mb-8 text-center text-4xl font-bold md:text-5xl">
+          标签：{decodedTag}
+        </h1>
+        <p className="text-center text-lg text-muted-foreground">
+          共找到 {posts.length} 篇相关文章
+        </p>
+        <div className="mt-4 flex flex-row justify-center gap-2.5">
+          <Button asChild>
+            <Link href="/blog/tags" prefetch={true}>查看所有标签</Link>
+          </Button>
+        </div>
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {pages.map((page) => (
-          <BlogItem key={page.url} page={page} />
-        ))}
-      </div>
-    </main>
+
+      <BlogList posts={posts} />
+    </div>
   );
 }
 
-export function generateStaticParams() {
-  const tags = [...getTags().keys()];
-
-  return tags.map((key) => ({
-    tag:
-      process.env.NODE_ENV === 'production'
-        ? key.toLowerCase()
-        : encodeURIComponent(key.toLowerCase()),
-  }));
-}
-
-export async function generateMetadata(props: {
-  params: Promise<{ tag: string }>;
-}): Promise<Metadata> {
-  const params = await props.params;
-  const decodedTag = decodeURIComponent(params.tag);
+export function generateMetadata(props: {
+  params: { tag: string };
+}): Metadata {
+  const decodedTag = decodeURIComponent(props.params.tag);
 
   return {
     title: `标签「${decodedTag}」下的文章`,
     alternates: {
-      canonical: `${domain}/blog/tags/${params.tag}`,
+      canonical: `${domain}/blog/tags/${props.params.tag}`,
     },
     openGraph: {
       title: `标签「${decodedTag}」下的文章`,
     },
   };
 }
+
+// 生成静态页面参数
+export const dynamic = 'force-static';
+export const revalidate = 3600; // 1小时重新验证一次

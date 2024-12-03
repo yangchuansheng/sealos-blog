@@ -12,11 +12,10 @@ ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 ENV NEXT_PUBLIC_OPEN_SOURCE_URL=$NEXT_PUBLIC_OPEN_SOURCE_URL
 ENV NEXT_TELEMETRY_DISABLED=1
 
-COPY pnpm-lock.yaml ./
-RUN pnpm config set registry https://registry.npmjs.org
-RUN pnpm fetch
+COPY package-lock.json ./
+RUN npm config set registry https://registry.npmjs.org
 COPY . .
-RUN pnpm install --offline --force && pnpm build
+RUN npm install && npm run build
 
 FROM base AS runner
 RUN apk add --no-cache curl
