@@ -37,7 +37,7 @@ export default async function BlogLayout({
               <div className="flex flex-col space-y-1.5 p-6">
                 <Image
                   alt="sidecard"
-                  src="https://images.tryfastgpt.ai/forum/2024-11-25-16-43-ya5hQU.png"
+                  src="/images/sealos.webp"
                   width={200}
                   height={160}
                   className="w-full"
@@ -50,7 +50,7 @@ export default async function BlogLayout({
                 </p>
               </div>
               <div className="flex w-full items-center p-6 pt-0">
-                <Link href="https://hzh.sealos.run" target="_blank" className="w-full">
+                <Link href="https://sealos.run/devbox" target="_blank" className="w-full">
                   <button className="inline-flex h-8 w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-black px-3 text-xs font-medium text-white shadow transition-colors hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
                     我要试试
                     <svg
