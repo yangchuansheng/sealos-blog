@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 
 export default function LocaleLayout({
   children,
-  params,
+  params
 }: {
   children: ReactNode;
   params: { lang: string };
