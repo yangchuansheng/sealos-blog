@@ -1,4 +1,4 @@
-import { blogAuthors, domain } from '@/config/site';
+import { blogAuthors, domain, twitterHandle } from '@/config/site';
 import { blog } from '@/lib/source';
 import { DocsBody } from 'fumadocs-ui/page';
 import type { Metadata } from 'next';
@@ -53,6 +53,12 @@ export async function generateMetadata(props: {
   const page = blog.getPage([params.slug]);
   if (!page) notFound();
 
+  const imageUrl = page.data.image 
+    ? `${domain}${page.data.image}`
+    : `${domain}/opengraph-image.png`;
+
+  const url = `${domain}/blog/${params.slug}`;
+
   return {
     metadataBase: new URL(domain),
     title: page.data.title,
@@ -72,27 +78,25 @@ export async function generateMetadata(props: {
       },
     },
     alternates: {
-      canonical: `${domain}/blog/${params.slug}`,
+      canonical: url,
     },
     openGraph: {
       type: 'article',
+      url,
       tags: page.data.keywords,
       authors: page.data.authors.map((author) => blogAuthors[author].name),
       title: page.data.title,
       description: page.data.description,
-      images: [
-        `${domain}${page.data.image ?? `${domain}/opengraph-image.png`}`,
-      ],
+      images: [imageUrl],
       publishedTime: page.data.date.toString(),
       modifiedTime: page.data.lastModified?.toString(),
     },
     twitter: {
       card: 'summary_large_image',
+      site: twitterHandle,
       title: page.data.title,
       description: page.data.description,
-      images: [
-        `${domain}${page.data.image ?? `${domain}/opengraph-image.png`}`,
-      ],
+      images: [imageUrl],
     },
   } satisfies Metadata;
 }

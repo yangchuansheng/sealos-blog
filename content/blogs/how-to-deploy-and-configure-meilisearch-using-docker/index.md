@@ -1,6 +1,6 @@
 ---
 title: "Elasticsearch 替代品 Meilisearch 安装和使用教程"
-description: 本教程探讨了 Meilisearch 的核心特性、安装配置过程，以及如何将其集成到实际应用中。
+description: 本教程详细介绍开源搜索引擎 Meilisearch 的核心特性、Docker 部署方法和实战应用。通过 Sealos 一键部署，轻松实现高性能搜索功能，并提供 Flarum 论坛集成示例。
 tags: [Developer Tools, Sealos, Meilisearch, Flarum]
 keywords: [Meilisearch, 搜索引擎, 搜索, 开源, Flarum, Elasticsearch 替代, 搜索引擎对比]
 date: 2024-11-21

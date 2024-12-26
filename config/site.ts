@@ -39,3 +39,5 @@ export const blogAuthors: Record<string, AuthorData> = {
     image_url: 'https://avatars.githubusercontent.com/u/15308462?v=4',
   },
 };
+
+export const twitterHandle = '@Sailos_io';
