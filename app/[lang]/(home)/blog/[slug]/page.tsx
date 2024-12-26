@@ -5,7 +5,19 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom';
-import React from 'react';
+import React, { Suspense } from 'react';
+import Image from 'next/image';
+
+// Loading component for content
+function ContentLoading() {
+  return (
+    <div className="animate-pulse">
+      <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
+      <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+      <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+    </div>
+  );
+}
 
 export default async function BlogPage({
   params,
@@ -19,23 +31,38 @@ export default async function BlogPage({
 
   return (
     <DocsBody>
-      <Content
-        components={{
-          ...defaultMdxComponents,
-          img: (props) => (
-            <ImageZoom {...(props as any)} className="rounded-xl" />
-          ),
-          p: ({ children, ...props }: any) => {
-            const hasH5 = React.Children.toArray(children).some(
-              (child) => React.isValidElement(child) && child.type === 'h5',
-            );
-            if (hasH5) {
-              return <div {...props}>{children}</div>;
-            }
-            return <p {...props}>{children}</p>;
-          },
-        }}
-      />
+      <Suspense fallback={<ContentLoading />}>
+        <Content
+          components={{
+            ...defaultMdxComponents,
+            img: ({ src, alt, ...props }: { src?: string; alt?: string; priority?: boolean }) => {
+              if (!src) return null;
+              return (
+                <div className="relative">
+                  <Image
+                    src={src}
+                    alt={alt || ''}
+                    width={800}
+                    height={400}
+                    className="rounded-xl"
+                    loading={props.priority ? 'eager' : 'lazy'}
+                    priority={props.priority}
+                  />
+                </div>
+              );
+            },
+            p: ({ children, ...props }: any) => {
+              const hasH5 = React.Children.toArray(children).some(
+                (child) => React.isValidElement(child) && child.type === 'h5',
+              );
+              if (hasH5) {
+                return <div {...props}>{children}</div>;
+              }
+              return <p {...props}>{children}</p>;
+            },
+          }}
+        />
+      </Suspense>
     </DocsBody>
   );
 }

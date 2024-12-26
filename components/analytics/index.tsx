@@ -19,61 +19,45 @@ const loadClarity = (trackingId: string) => {
 };
 
 export function Analytics() {
-  // Lazy load Clarity after page is fully loaded
   useEffect(() => {
-    if (analyticsConfig.clarity?.enabled) {
-      // Add a small delay to prioritize more important resources
-      const timer = setTimeout(() => {
-        loadClarity(analyticsConfig.clarity!.trackingId);
-      }, 3000); // 3 seconds delay
+    // Load all analytics after page load
+    const loadAnalytics = () => {
+      // Load Clarity
+      if (analyticsConfig.clarity?.enabled) {
+        loadClarity(analyticsConfig.clarity.trackingId);
+      }
 
-      return () => clearTimeout(timer);
-    }
+      // Load Baidu
+      if (analyticsConfig.baidu?.enabled) {
+        const hm = document.createElement("script");
+        hm.src = `https://hm.baidu.com/hm.js?${analyticsConfig.baidu.trackingId}`;
+        document.body.appendChild(hm);
+      }
+
+      // Load Google Analytics
+      if (analyticsConfig.google?.enabled) {
+        const ga = document.createElement("script");
+        ga.src = `https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.google.trackingId}`;
+        ga.async = true;
+        document.body.appendChild(ga);
+        
+        interface Window {
+          dataLayer: any[];
+          gtag: (...args: any[]) => void;
+        }
+        
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        function gtag(...args: any[]) {(window as any).dataLayer.push(arguments);}
+        (window as any).gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', analyticsConfig.google.trackingId);
+      }
+    };
+
+    // Delay analytics loading
+    const timer = setTimeout(loadAnalytics, 3000);
+    return () => clearTimeout(timer);
   }, []);
 
-  return (
-    <>
-      {analyticsConfig.baidu?.enabled && (
-        <Script strategy="afterInteractive" id="baidu-analytics">
-          {`
-            var _hmt = _hmt || [];
-            (function() {
-              var hm = document.createElement("script");
-              hm.src = "https://hm.baidu.com/hm.js?${analyticsConfig.baidu.trackingId}";
-              var s = document.getElementsByTagName("script")[0]; 
-              s.parentNode.insertBefore(hm, s);
-            })();
-          `}
-        </Script>
-      )}
-
-      {analyticsConfig.google?.enabled && (
-        <>
-          <Script
-            strategy="afterInteractive"
-            src={`https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.google.trackingId}`}
-            id="google-analytics"
-          />
-          <Script strategy="afterInteractive" id="google-analytics-config">
-            {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${analyticsConfig.google.trackingId}', {
-                send_page_view: false  // Defer page view to improve FCP
-              });
-              // Send page view after the page is interactive
-              if (document.readyState === 'complete') {
-                gtag('event', 'page_view');
-              } else {
-                window.addEventListener('load', function() {
-                  gtag('event', 'page_view');
-                });
-              }
-            `}
-          </Script>
-        </>
-      )}
-    </>
-  );
+  return null;
 } 

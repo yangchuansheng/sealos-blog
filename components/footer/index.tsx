@@ -48,7 +48,7 @@ const Footer = async () => {
               className="flex items-center gap-0.8 font-bold"
             >
               <Image
-                alt={siteConfig.name}
+                alt=""
                 src="/logo.svg"
                 className="h-9 w-9"
                 width={30}
