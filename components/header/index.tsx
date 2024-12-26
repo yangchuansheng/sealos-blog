@@ -36,7 +36,7 @@ export default function Header({ lang }: { lang: string }) {
               className="flex items-center gap-1 font-bold"
             >
               <Image
-                alt={siteConfig.name}
+                alt=""
                 src="/logo.svg"
                 className="h-10 w-10"
                 width={32}
@@ -92,7 +92,7 @@ export default function Header({ lang }: { lang: string }) {
                           className="inline-flex items-center"
                         >
                           <Image
-                            alt={siteConfig.name}
+                            alt=""
                             src="/logo.svg"
                             className="h-8 w-8"
                             width={32}

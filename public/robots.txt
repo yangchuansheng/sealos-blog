@@ -1,0 +1,15 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /zh/
+Disallow: /en/
+Disallow: /docs/
+
+# Host
+Host: https://blog.sealos.run
+
+# Sitemaps
+Sitemap: https://blog.sealos.run/sitemap.xml
+

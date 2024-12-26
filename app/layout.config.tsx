@@ -14,7 +14,7 @@ export const baseOptions: BaseLayoutProps = {
   nav: {
     title: (
       <div className="flex items-center gap-1">
-        <Image alt="Sealos" src="/logo.svg" width={32} height={32} />
+        <Image alt="" src="/logo.svg" width={32} height={32} />
         <span className="hidden text-base font-bold md:block">Sealos</span>
       </div>
     ),
