@@ -38,26 +38,39 @@ export default async function BlogPage({
             img: ({ src, alt, ...props }: { src?: string; alt?: string; priority?: boolean }) => {
               if (!src) return null;
               return (
-                <div className="relative">
-                  <Image
-                    src={src}
-                    alt={alt || ''}
-                    width={800}
-                    height={400}
-                    className="rounded-xl"
-                    loading={props.priority ? 'eager' : 'lazy'}
-                    priority={props.priority}
-                  />
-                </div>
+                <Image
+                  src={src}
+                  alt={alt || ''}
+                  width={800}
+                  height={400}
+                  className="rounded-xl block"
+                  loading={props.priority ? 'eager' : 'lazy'}
+                  priority={props.priority}
+                />
               );
             },
             p: ({ children, ...props }: any) => {
-              const hasH5 = React.Children.toArray(children).some(
-                (child) => React.isValidElement(child) && child.type === 'h5',
-              );
-              if (hasH5) {
-                return <div {...props}>{children}</div>;
+              const childArray = React.Children.toArray(children);
+              
+              // Check if paragraph only contains an image
+              const onlyImage = childArray.length === 1 && 
+                React.isValidElement(childArray[0]) &&
+                childArray[0].type === Image;
+              
+              if (onlyImage) {
+                return childArray;
               }
+              
+              // Check for any other block elements
+              const hasBlockElement = childArray.some(
+                (child) => React.isValidElement(child) && 
+                          (child.type === 'h5' || child.type === 'div')
+              );
+              
+              if (hasBlockElement) {
+                return <>{childArray}</>;
+              }
+              
               return <p {...props}>{children}</p>;
             },
           }}
